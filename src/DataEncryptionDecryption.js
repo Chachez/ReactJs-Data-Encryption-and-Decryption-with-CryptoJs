@@ -15,10 +15,10 @@ import EnhancedEncryptionIcon from "@mui/icons-material/EnhancedEncryption";
 
 const RootComponent = styled("div")(({ theme }) => ({
   maxWidth: "100%",
-  maxHeight: "90vh",
+  maxHeight: "100%",
   margin: "0 auto",
   padding: theme.spacing(3, 3, 6, 3),
-  overflow: "hidden",
+  overflow: "auto",
 }));
 
 const PaperComponent = styled(Paper)(({ theme }) => ({
@@ -71,17 +71,23 @@ const App = () => {
   const [encryptedData, setEncryptedData] = useState("");
   const [decryptedData, setDecryptedData] = useState("");
 
+  const { REACT_APP_SECRET_KEY } = process.env;
+
   const handleSubmit = (values) => {
     const { jsonData } = values;
 
     // Encrypt JSON data
-    const encrypted = CryptoJS.AES.encrypt(jsonData, "secret key").toString();
+    const encrypted = CryptoJS.AES.encrypt(
+      jsonData,
+      REACT_APP_SECRET_KEY
+    ).toString();
     setEncryptedData(encrypted);
 
     // Decrypt JSON data
-    const decrypted = CryptoJS.AES.decrypt(encrypted, "secret key").toString(
-      CryptoJS.enc.Utf8
-    );
+    const decrypted = CryptoJS.AES.decrypt(
+      encrypted,
+      REACT_APP_SECRET_KEY
+    ).toString(CryptoJS.enc.Utf8);
     setDecryptedData(decrypted);
   };
 
@@ -131,7 +137,7 @@ const App = () => {
           <Grid
             container
             spacing={3}
-            sx={{ maxHeight: "20vh", overflow: "auto", marginTop: "0.1rem" }}
+            sx={{ maxHeight: "16.5vh", overflow: "auto", marginTop: "0.1rem" }}
           >
             <Grid item sm={12} md={12} lg={12}>
               <Typography variant="subtitle2" gutterBottom>
@@ -148,7 +154,7 @@ const App = () => {
           <Grid
             container
             spacing={3}
-            sx={{ maxHeight: "20vh", overflow: "auto", marginTop: "0.1rem" }}
+            sx={{ maxHeight: "16.5vh", overflow: "auto", marginTop: "0.1rem" }}
           >
             <Grid item sm={12} md={12} lg={12}>
               <Typography variant="subtitle2" gutterBottom>
